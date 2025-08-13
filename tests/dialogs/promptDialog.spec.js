@@ -33,4 +33,7 @@ test('Prompt dialog message saves provided input', async ({ page }) => {
 
   expect(dialogType).toBe('prompt');
   expect(dialogMessage).toBe('I prompt you');
+  await expect(page.locator('#promptexplanation')).toHaveText(
+    `You clicked OK. 'prompt' returned ${value}`,
+  );
 });

@@ -33,4 +33,7 @@ test('Confirm dialog contains text and can be Dismissed', async ({ page }) => {
   expect(dialogType).toBe('confirm');
 
   expect(dialogMessage).toBe('I am a confirm alert');
+  await expect(page.locator('#confirmexplanation')).toHaveText(
+    'You clicked Cancel, confirm returned false.',
+  );
 });
