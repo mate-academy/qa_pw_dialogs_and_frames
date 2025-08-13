@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 test('The form can be submited within the frame', async ({ page }) => {
   /*
@@ -15,14 +15,15 @@ test('The form can be submited within the frame', async ({ page }) => {
   and then find other elements within it. 
   */
   await page.goto('https://webdriveruniversity.com/IFrame/index.html');
-  await page
-    .getByText('&lt;span class="btn btn-')
-    .contentFrame()
-    .getByRole('link', { name: 'Contact Us' })
-    .click();
+  const frame = page.frameLocator('#frame');
+  await frame.locator('text=Contact Us').click();
+  await frame.locator('input[name="first_name"]').fill('Name');
+  await frame.locator('input[name="last_name"]').fill('Name last');
+  await frame.locator('input[name="email"]').fill('Name@gmail.com');
+  await frame
+    .locator('textarea[name="message"]')
+    .fill('Namedsfdsfsdfdsfdsfsdfdsf');
 
-  page.getByPlaceholder('First Name').fill('skmfc');
-  page.getByPlaceholder('Last Name').fill('skmfcasdasd');
-  page.getByPlaceholder('Email Address').fill('skmfcasdasd@gmail.com');
-  page.getByPlaceholder('Comments').fill('skmfcasdasd@gmail.com zxczsxczxc');
+  await frame.locator('input[type="submit"]').click();
+  await expect(frame.locator('text=Thank You for your Message')).toBeVisible();
 });
