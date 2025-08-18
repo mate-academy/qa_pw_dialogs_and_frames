@@ -1,16 +1,21 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-test('Products list can be opened within the frame', async ({}) => {
-  /*
-  Test:
-  1. Open the page
-   https://webdriveruniversity.com/IFrame/index.html
-  2. Click 'Our Products' link
-  3. Assert that all the block links are visible
-   ('Specifal offers',  'Cameras', etc.) 
+test('Products list can be opened within the frame', async ({ page }) => {
 
-  Tip:
-  Remember, that you need firstly to define the frame locator, 
-  and then find other elements within it. 
-  */
+  await page.goto(
+    'https://webdriveruniversity.com/IFrame/index.html',
+  );
+
+  const frameLocator = page.frameLocator('#frame');
+
+  await frameLocator.getByRole('link', {name: 'Our Products'}).click();
+
+  await expect(frameLocator.locator('#container-special-offers p')).toContainText('Special Offers');
+  await expect(frameLocator.locator('#container-product1 p')).toContainText('Cameras');
+  await expect(frameLocator.locator('#container-product2 p')).toContainText('New Laptops');
+  await expect(frameLocator.locator('#container-product3 p')).toContainText('Used Laptops');
+  await expect(frameLocator.locator('#container-product4 p')).toContainText('Game Consoles');
+  await expect(frameLocator.locator('#container-product5 p')).toContainText('Components');
+  await expect(frameLocator.locator('#container-product6 p')).toContainText('Desktop Systems');
+  await expect(frameLocator.locator('#container-product7 p')).toContainText('Audio');
 });
