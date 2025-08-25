@@ -1,6 +1,6 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-test('Fake alert box can be opened and closed', async ({}) => {
+test('Fake alert box can be opened and closed', async ({ page }) => {
   /*
   Test:
   1. Open the page
@@ -11,4 +11,22 @@ test('Fake alert box can be opened and closed', async ({}) => {
   5. Click the button 'Ok'
   6. Assert the dialog was closed
   */
+
+  await page.goto(
+    'https://testpages.eviltester.com/styled/alerts/fake-alert-test.html',
+  );
+
+  await page.getByRole('button', { name: 'Show fake alert box' }).click();
+
+  const dialogLocator = page.locator('.dialog');
+  const dialogMessage = dialogLocator.locator('h2');
+  const dialogButton = dialogLocator.locator('.dialog-button');
+
+  await expect(dialogLocator).toBeVisible();
+
+  await expect(dialogMessage).toHaveText('I am a fake alert box!');
+
+  await dialogButton.click();
+
+  await expect(dialogLocator).toBeHidden();
 });
