@@ -1,6 +1,6 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test('Prompt dialog message saves provided input', async ({}) => {
+test('Prompt dialog message saves provided input', async ({ page }) => {
   /*
   Test:
   1. Open the page
@@ -14,4 +14,26 @@ test('Prompt dialog message saves provided input', async ({}) => {
   8. Assert the dialog message is 'I prompt you'
   9. Assert the message 'You clicked OK. 'prompt' returned ${value}' is visible
   */
+
+  let dialogType;
+  let dialogMessage;
+  const value = 'Test input';
+  await page.goto(
+    'https://testpages.eviltester.com/styled/alerts/alert-test.html',
+  );
+
+  const dialogPromise = page.waitForEvent('dialog').then(async dialog => {
+    dialogType = dialog.type();
+    dialogMessage = dialog.message();
+    await dialog.accept(value);
+  });
+
+  page.locator('#promptexample').click();
+  await dialogPromise;
+
+  expect(dialogType).toBe('prompt');
+  expect(dialogMessage).toBe('I prompt you');
+  await expect(page.locator('#promptexplanation')).toHaveText(
+    `You clicked OK. 'prompt' returned ${value}`,
+  );
 });
