@@ -31,6 +31,8 @@ test('Prompt dialog message saves provided input', async ({page}) => {
   expect(dialogType).toBe('prompt');
   expect(dialogMessage).toContain('I prompt you');
 
-  const locator = page.getByText('You clicked OK. \'prompt\' returned change me');
+  const locator = page.getByText(
+    "You clicked OK. 'prompt' returned change me",
+  );
   await expect(locator).toBeVisible();
 });
