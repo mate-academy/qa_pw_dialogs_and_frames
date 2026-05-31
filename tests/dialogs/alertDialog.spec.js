@@ -17,7 +17,6 @@ test('Alert dialog contains text and can be Accepted', async ({ page }) => {
   await page.locator('#alertexamples').click();
   expect(dialogType).toBe('alert');
   expect(dialogMessage).toContain('I am an alert box!');
-
   const locator = page.getByText('You triggered and handled the alert dialog');
   await expect(locator).toBeVisible();
 });
