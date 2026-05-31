@@ -21,7 +21,6 @@ test('The form can be submited within the frame', async ({ page }) => {
   );
 
   const frame = page.frameLocator('#frame');
-
   await frame.getByText('Contact Us').click();
   await frame.locator('input[name="first_name"]').fill('L');
   await frame.locator('input[name="last_name"]').fill('Lawliet ');
