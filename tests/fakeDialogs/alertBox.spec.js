@@ -15,7 +15,7 @@ test('Fake alert box can be opened and closed', async ({ page }) => {
  const dialogLocator = page.getByRole('dialog');
  
   await page.goto(
-    'https://testpages.eviltester.com/pages/basics/alerts-not-javascript/',
+    'https://testpages.eviltester.com/styled/alerts/fake-alert-test.html',
   );
   await page.getByRole('button', { name: 'Show modal dialog' }).click();
   await expect(dialogLocator).toBeVisible();
