@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test('Prompt dialog message saves provided input', async ({page}) => {
   let dialogMessage;
   let dialogType;
-  let value;
+  let value = 'sgregt';
   
   await page.goto(
     'https://testpages.eviltester.com/styled/alerts/alert-test.html',
