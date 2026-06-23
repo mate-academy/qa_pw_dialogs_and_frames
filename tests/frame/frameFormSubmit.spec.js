@@ -1,17 +1,14 @@
-import { test } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
-test('The form can be submited within the frame', async ({}) => {
-  /*
-  Test:
-  1. Open the page
-   https://webdriveruniversity.com/IFrame/index.html
-  2. Click 'Contact Us' link
-  3. Fill all the fields
-  4. Click submit
-  5. Assert the message 'Thank You for your Message'
+test('The form can be submited within the frame', async ({page}) => {
+  let frame = page.frameLocator('#frame');
 
-  Tip:
-  Remember, that you need firstly to define the frame locator, 
-  and then find other elements within it. 
-  */
+  await page.goto('https://webdriveruniversity.com/IFrame/index.html');
+  await frame.getByRole('link', {name: 'Contact Us'}).click();
+  await frame.getByPlaceholder('First Name').fill('1');
+  await frame.getByPlaceholder('Last Name').fill('1');
+  await frame.getByPlaceholder('Email Address').fill('1@gmail.com');
+  await frame.getByPlaceholder('Comments').fill('1');
+  await frame.getByRole('button', {name: 'SUBMIT'}).click();
+  await expect(frame.getByText('Thank You for your Message!')).toBeVisible();
 });
