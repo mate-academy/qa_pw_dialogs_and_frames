@@ -17,7 +17,7 @@ await page.goto(
 
   await page.locator('#confirmexample').click();
   await expect(dialogType).toBe('confirm');
-  await expect(dialogMessage).toContain('I am a confirm alert');
+  await expect(dialogMessage).toBe('I am a confirm alert');
 
   const locator = page.locator('#confirmexplanation')
   await expect(locator).toHaveText('You clicked Cancel, confirm returned false.');

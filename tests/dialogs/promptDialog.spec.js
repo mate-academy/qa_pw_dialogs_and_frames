@@ -18,7 +18,7 @@ page.on('dialog', async (dialog) => {
 
 await page.locator('#promptexample').click();
 await expect(dialogType).toBe('prompt');
-await expect(dialogMessage).toContain('I prompt you');
+await expect(dialogMessage).toBe('I prompt you');
 
 const locator = page.locator('#promptexplanation');
 await expect(locator).toHaveText(`You clicked OK. 'prompt' returned ${value}`);
