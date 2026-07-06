@@ -1,6 +1,17 @@
 import { test } from '@playwright/test';
+import { expect } from '@playwright/test';
 
-test('The form can be submited within the frame', async ({}) => {
+test('The form can be submited within the frame', async ({page}) => {
+
+  await page.goto('https://webdriveruniversity.com/IFrame/index.html',
+      );
+  await page.frameLocator('#frame').getByRole('link', { name: 'Contact Us' }).click();
+  await page.frameLocator('#frame').getByPlaceholder('First Name').fill('Monika');
+  await page.frameLocator('#frame').getByPlaceholder('Last Name').fill('Letic');
+  await page.frameLocator('#frame').getByPlaceholder('Email Address').fill('monika.letic@example.com');
+  await page.frameLocator('#frame').getByPlaceholder('Comments').fill('Comments');
+  await page.frameLocator('#frame').getByRole('button', { name: 'Submit' }).click();
+  await expect(page.frameLocator('#frame').getByText('Thank You for your Message!')).toBeVisible();
   /*
   Test:
   1. Open the page
