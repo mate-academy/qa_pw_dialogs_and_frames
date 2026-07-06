@@ -11,7 +11,7 @@ await page.goto(
 
   page.on('dialog', async dialog => {
     dialogType = dialog.type();
-    dialogMessage = dialog.message('Are you sure?');
+    dialogMessage = dialog.message();
     await dialog.dismiss();
   });
 
@@ -20,7 +20,7 @@ await page.goto(
   await expect(dialogMessage).toContain('I am a confirm alert');
 
   const locator = page.locator('#confirmexplanation')
-  await expect(locator).toContainText('You clicked Cancel, confirm returned false.');
+  await expect(locator).toHaveText('You clicked Cancel, confirm returned false.');
 
   
   /*

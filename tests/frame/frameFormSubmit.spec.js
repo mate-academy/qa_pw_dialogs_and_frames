@@ -9,6 +9,7 @@ test('The form can be submited within the frame', async ({page}) => {
   await page.frameLocator('#frame').getByPlaceholder('Last Name').fill('Letic');
   await page.frameLocator('#frame').getByPlaceholder('Email Address').fill('monika.letic@example.com');
   await page.frameLocator('#frame').getByRole('button', { name: 'Submit' }).click();
+  await page.frameLocator('#frame').getByText('Thank You for your Message!').isVisible();
   /*
   Test:
   1. Open the page

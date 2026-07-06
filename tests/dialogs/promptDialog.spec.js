@@ -4,6 +4,7 @@ import { expect } from '@playwright/test';
 test('Prompt dialog message saves provided input', async ({ page }) => {
   let dialogMessage;
   let dialogType;
+  const value = 'text';
 
   await page.goto(
       'https://testpages.eviltester.com/styled/alerts/alert-test.html',
@@ -11,7 +12,7 @@ test('Prompt dialog message saves provided input', async ({ page }) => {
 page.on('dialog', async (dialog) => {
   dialogType = dialog.type();
   dialogMessage = dialog.message();
-  await dialog.accept('text');
+  await dialog.accept(value);
 });
 
 
@@ -20,7 +21,7 @@ await expect(dialogType).toBe('prompt');
 await expect(dialogMessage).toContain('I prompt you');
 
 const locator = page.locator('#promptexplanation');
-await expect(locator).toContainText(`You clicked OK. 'prompt' returned text`);
+await expect(locator).toHaveText(`You clicked OK. 'prompt' returned ${value}`);
 
   /*
   Test:
