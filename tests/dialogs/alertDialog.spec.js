@@ -8,13 +8,18 @@ test('Alert dialog contains text and can be Accepted', async ({ page }) => {
     'https://testpages.eviltester.com/styled/alerts/alert-test.html',
   );
 
-  page.on('dialog', async dialog => {
-    dialogType = dialog.type();
-    dialogMessage = dialog.message();
-    await dialog.accept();
+  const dialogPromise = new Promise(resolve => {
+    page.on('dialog', async dialog => {
+      dialogType = dialog.type();
+      dialogMessage = dialog.message();
+      await dialog.accept();
+      resolve();
+    });
   });
 
   await page.locator('#alertexamples').click();
+  await dialogPromise;
+
   expect(dialogType).toBe('alert');
   expect(dialogMessage).toContain('I am an alert box!');
 

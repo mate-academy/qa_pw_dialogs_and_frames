@@ -15,12 +15,15 @@ test('Fake alert box can be opened and closed', async ({ page }) => {
   await page.goto(
     'https://testpages.eviltester.com/styled/alerts/fake-alert-test.html',
   );
+
+  const modal = page.getByRole('dialog');
+
   await page.getByText('Show modal dialog').click();
 
-  await expect(page.getByRole('dialog')).toBeVisible();
-  await expect(page.getByRole('dialog')).toContainText('I am a modal div!');
+  await expect(modal).toBeVisible();
+  await expect(modal).toContainText('I am a modal div!');
 
-  await page.getByRole('dialog').getByText('Ok').click();
+  await modal.getByText('Ok').click();
 
-  await expect(page.getByRole('dialog')).toBeHidden();
+  await expect(modal).toBeHidden();
 });

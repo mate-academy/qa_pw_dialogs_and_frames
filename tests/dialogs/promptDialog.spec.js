@@ -22,13 +22,17 @@ test('Prompt dialog message saves provided input', async ({ page }) => {
     'https://testpages.eviltester.com/styled/alerts/alert-test.html',
   );
 
-  page.on('dialog', async dialog => {
-    dialogType = dialog.type();
-    dialogMessage = dialog.message();
-    await dialog.accept(promptValue);
+  const dialogPromise = new Promise(resolve => {
+    page.on('dialog', async dialog => {
+      dialogType = dialog.type();
+      dialogMessage = dialog.message();
+      await dialog.accept(promptValue);
+      resolve();
+    });
   });
 
   await page.getByText('Show prompt box').click();
+  await dialogPromise;
 
   expect(dialogType).toBe('prompt');
   expect(dialogMessage).toBe('I prompt you');

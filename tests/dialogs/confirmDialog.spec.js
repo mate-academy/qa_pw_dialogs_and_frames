@@ -21,13 +21,17 @@ test('Confirm dialog contains text and can be Dismissed', async ({ page }) => {
     'https://testpages.eviltester.com/styled/alerts/alert-test.html',
   );
 
-  page.on('dialog', async dialog => {
-    dialogType = dialog.type();
-    dialogMessage = dialog.message();
-    await dialog.dismiss();
+  const dialogPromise = new Promise(resolve => {
+    page.on('dialog', async dialog => {
+      dialogType = dialog.type();
+      dialogMessage = dialog.message();
+      await dialog.dismiss();
+      resolve();
+    });
   });
 
   await page.getByText('Show confirm box').click();
+  await dialogPromise;
 
   expect(dialogType).toBe('confirm');
   expect(dialogMessage).toBe('I am a confirm alert');
