@@ -1,6 +1,6 @@
-import { test } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 
-test('Fake modal dialog can be opened and closed', async ({}) => {
+test('Fake modal dialog can be opened and closed', async ({ page }) => {
   /*
   Test:
   1. Open the page
@@ -11,4 +11,19 @@ test('Fake modal dialog can be opened and closed', async ({}) => {
   5. Click the button 'Ok'
   6. Assert the dialog was closed
   */
+
+  await page.goto(
+    'https://testpages.eviltester.com/styled/alerts/fake-alert-test.html',
+  );
+
+  const modal = page.getByRole('dialog');
+
+  await page.getByText('Show fake alert box').click();
+
+  await expect(modal).toBeVisible();
+  await expect(modal).toContainText('I am a fake alert box!');
+
+  await modal.getByText('Ok').click();
+
+  await expect(modal).toBeHidden();
 });
