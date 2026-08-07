@@ -14,28 +14,23 @@ test('Prompt dialog message saves provided input', async ({ page }) => {
   8. Assert the dialog message is 'I prompt you'
   9. Assert the message 'You clicked OK. 'prompt' returned ${value}' is visible
   */
-  let dialogMessage;
-  let dialogType;
   const promptValue = 'Test Input';
 
   await page.goto(
     'https://testpages.eviltester.com/styled/alerts/alert-test.html',
   );
 
-  const dialogPromise = new Promise(resolve => {
-    page.on('dialog', async dialog => {
-      dialogType = dialog.type();
-      dialogMessage = dialog.message();
-      await dialog.accept(promptValue);
-      resolve();
-    });
-  });
+  const dialogPromise = page.waitForEvent('dialog');
 
-  await page.getByText('Show prompt box').click();
-  await dialogPromise;
+  page.getByText('Show prompt box').click();
 
-  expect(dialogType).toBe('prompt');
-  expect(dialogMessage).toBe('I prompt you');
+  const dialog = await dialogPromise;
+
+  expect(dialog.type()).toBe('prompt');
+  expect(dialog.message()).toBe('I prompt you');
+
+  await dialog.accept(promptValue);
+
   await expect(page.locator('#promptexplanation')).toHaveText(
     `You clicked OK. 'prompt' returned ${promptValue}`,
   );

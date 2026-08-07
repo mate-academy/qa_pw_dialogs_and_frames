@@ -14,27 +14,21 @@ test('Confirm dialog contains text and can be Dismissed', async ({ page }) => {
   8. Assert the dialog message is 'I am a confirm alert'
   9. Assert the message 'You clicked Cancel, confirm returned false.' is visible
   */
-  let dialogMessage;
-  let dialogType;
-
   await page.goto(
     'https://testpages.eviltester.com/styled/alerts/alert-test.html',
   );
 
-  const dialogPromise = new Promise(resolve => {
-    page.on('dialog', async dialog => {
-      dialogType = dialog.type();
-      dialogMessage = dialog.message();
-      await dialog.dismiss();
-      resolve();
-    });
-  });
+  const dialogPromise = page.waitForEvent('dialog');
 
-  await page.getByText('Show confirm box').click();
-  await dialogPromise;
+  page.getByText('Show confirm box').click();
 
-  expect(dialogType).toBe('confirm');
-  expect(dialogMessage).toBe('I am a confirm alert');
+  const dialog = await dialogPromise;
+
+  expect(dialog.type()).toBe('confirm');
+  expect(dialog.message()).toBe('I am a confirm alert');
+
+  await dialog.dismiss();
+
   await expect(page.locator('#confirmexplanation')).toHaveText(
     'You clicked Cancel, confirm returned false.',
   );
