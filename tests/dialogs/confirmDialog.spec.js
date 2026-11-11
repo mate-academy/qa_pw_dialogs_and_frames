@@ -30,7 +30,7 @@ test('Confirm dialog contains text and can be Dismissed', async ({ page }) => {
 
   await page.locator('#confirmexample').click();
   expect(dialogType).toBe('confirm');
-  expect(dialogMessage).toContain('I am a confirm alert');
+  expect(dialogMessage).toBe('I am a confirm alert');
 
   const locator = page.getByText('You clicked Cancel, confirm returned false.');
   await expect(locator).toBeVisible();
