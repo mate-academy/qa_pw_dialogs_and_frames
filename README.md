@@ -23,12 +23,12 @@ In this task, you will create tests involving work with dialogs and a frame.
 ## Main Task
 
 1. Create the tests based on the test steps provided within the test files:
-- `tests/dialogs/confirmDialog.spec.js`
-- `tests/dialogs/promptDialog.spec.js`
-- `tests/fakeDialogs/alertBox.spec.js`
-- `tests/fakeDialogs/modalDialog.spec.js`
-- `tests/forms/frameFormSubmit.spec.js`
-- `tests/forms/frameProductsList.spec.js`
+- `tests/dialogs/confirmDialog.spec.js` +
+- `tests/dialogs/promptDialog.spec.js` +
+- `tests/fakeDialogs/alertBox.spec.js` +
+- `tests/fakeDialogs/modalDialog.spec.js` +
+- `tests/forms/frameFormSubmit.spec.js` +
+- `tests/forms/frameProductsList.spec.js` +
 2. Run all the tests and make sure that pass.
 
 ## Task Reporting
